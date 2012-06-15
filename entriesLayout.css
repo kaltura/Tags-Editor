@@ -23,6 +23,15 @@ div.removeTagsDiv {
 	padding-top: 15px;
 }
 
+div.removeTagTextDiv {
+	float:left;
+}
+
+div.removeTagSelectDiv {
+	float:left;
+	padding-left:5px;
+}
+
 div.searchDiv {
 	padding-bottom: 15px;
 }

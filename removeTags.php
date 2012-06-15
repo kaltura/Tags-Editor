@@ -8,10 +8,7 @@ $client = new KalturaClient($config);
 $ks = $client->generateSession(ADMIN_SECRET, USER_ID, KalturaSessionType::ADMIN, PARTNER_ID);
 $client->setKs($ks);
 //Formats the tags correctly
-$tags = explode(',', $_REQUEST["tags"]);
-foreach($tags as $index => $tag) {
-	$tags[$index] = strtolower(trim($tag));
-}
+$tags = $_REQUEST['tags'];
 //Checks to see if there are any tags that can be removed
 $tagMatch = false;
 foreach($tags as $checkTag) {

@@ -98,9 +98,9 @@ $client->setKs($ks);
 			$.ajax({
 				type: "POST",
 				url: "removeTags.php",
-				data: {tags: $('#removeTagsInput').val()}
+				data: {tags: $('#removeTagsSelect').val()}
 			}).done(function(msg) {
-				$('#removeTagsInput').val('');
+				$('#removeTagsSelect').val('');
 				updateTagList();
 				alert(msg);
 				window.location.reload();
@@ -207,23 +207,14 @@ $client->setKs($ks);
 	<input type="text" id="addTagsInput" value="">
 	<button id="addTagsButton" class="addTagsButtonClass" type="button" onclick="addTags()">Submit</button>
 </div>
-<div class="removeTagDiv">Remove tags (seperated by commas): 
-	<input type="text" id="removeTagsInput" value="">
-	<select class="czntags" id="removeTagsSelect" name="<?php print $count ?>[]" data-placeholder="Remove tags" style="width:350px;" multiple="multiple">
-		<?php foreach($tagArray as $tag => $tagCount) :?>
-        		<option value="<?php print $tag ?>"
-            		<?php
-            			//Checks to see if the particular entry has any tags already
-            			//Any tags found are pre-selected in the multiselect field
-						$pos = strpos($tagsList[$count],$tag);
-						if($pos === false) {}
-						else {
-							print " selected ";
-						}
-					?>><?php print $tag; ?>
-				</option>
-    	<?php endforeach; ?>
-    </select>
+<div class="removeTagsDiv"><div class="removeTagTextDiv">Remove tags: </div>
+	<div class="removeTagSelectDiv">
+		<select class="czntags" id="removeTagsSelect" name="<?php print $count ?>[]" data-placeholder="Select tags" style="width:350px;" multiple="multiple">
+			<?php foreach($tagArray as $tag => $tagCount) :?>
+	        	<option value="<?php print $tag ?>"><?php print $tag; ?></option>
+	    	<?php endforeach; ?>
+	    </select>
+    </div>
 	<button id="removeTagsButton" class="removeTagsButtonClass" type="button" onclick="removeTags()">Submit</button>
 </div>
 <div><h1>List of entries:</h1>

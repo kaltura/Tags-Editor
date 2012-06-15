@@ -16,7 +16,7 @@ $client->setKs($ks);
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Tag Edit</title>
+	<title>Tag Editor</title>
 	<link rel="stylesheet" href="chosen/chosen.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="chosen/chosen.jquery.js" type="text/javascript"></script>

@@ -1,0 +1,58 @@
+@CHARSET "ISO-8859-1";
+body {
+	background-color: #ededed;
+	text-align: justify;
+ 	font-size: 14px;
+ 	line-height: 24px;
+ 	font-family: "Trebuchet MS", Helvetica, Sans-Serif;
+}
+
+h1 {
+	font-size:2em;
+}
+
+div.pagerDiv {
+	padding-bottom: 15px;
+}
+
+div.addTagsDiv {
+	padding-top: 15px;
+}
+
+div.removeTagsDiv {
+	padding-top: 15px;
+}
+
+div.searchDiv {
+	padding-bottom: 15px;
+}
+
+div.capsule {
+	width:800px;
+	margin: 0 auto;
+}
+
+#wrapper {
+	width:800px;
+	margin: 0 auto;
+}
+
+div.float1 {
+	float:left;
+}
+
+div.float2 {
+	float:left;
+	padding-top: 61px;
+	padding-left: 3px;
+}
+
+div.float3 {
+	float:left;
+	padding-top: 61px;
+}
+
+div.clear {
+	clear:both;
+	padding-top: 3px;
+}

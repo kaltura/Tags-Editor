@@ -9,15 +9,7 @@ $ks = $client->generateSession(ADMIN_SECRET, USER_ID, KalturaSessionType::ADMIN,
 $client->setKs($ks);
 //Formats the tags correctly
 $tags = $_REQUEST['tags'];
-//Checks to see if there are any tags that can be removed
-$tagMatch = false;
-foreach($tags as $checkTag) {
-	if($tagMatch == true) 
-		break;
-	if(array_key_exists($checkTag, $tagArray))
-		$tagMatch = true;
-}
-if($tagMatch > 0) {
+if($_REQUEST['tags'] != "null") {
 	//Removes the tags from the cache
 	foreach($tags as $deleteTag) {
 		if(array_key_exists($deleteTag, $tagArray)) {
@@ -66,5 +58,48 @@ if($tagMatch > 0) {
 	file_put_contents(TAG_CACHE, serialize($tagArray));
 	print "Tags removed";
 }
+elseif(array_key_exists('null', $tagArray)) {
+	unset($tagArray['null']);
+	$pager = new KalturaFilterPager();
+	$pageSize = 500;
+	$pager->pageSize = $pageSize;
+	$lastCreatedAt = 0;
+	$lastEntryIds = "";
+	$cont = true;
+	while($cont) {
+		$filter = new KalturaMediaEntryFilter();
+		$filter->orderBy = "-createdAt";
+		$filter->tagsMultiLikeOr = $tagString;
+		if($lastCreatedAt != 0)
+			$filter->createdAtLessThanOrEqual = $lastCreatedAt;
+		if($lastEntryIds != "")
+			$filter->idNotIn = $lastEntryIds;
+		$results = $client->media->listAction($filter, $pager);
+		if(count($results->objects) == 0) {
+			$cont = false;
+		}
+		$entryIds = "";
+		foreach($results->objects as $place => $entry) {
+			$oldTags = explode(',', $entry->tags);
+			foreach($oldTags as $index => $tag) {
+				$oldTags[$index] = trim($tag);
+			}
+			unset($oldTags[array_search('null', $oldTags)]);
+			//Updates the corresponding media entry with the new list of tags
+			$joinedTags = implode(', ', $oldTags);
+			$mediaEntry = new KalturaMediaEntry();
+			$mediaEntry->tags = $joinedTags;
+			$entryId = $results->objects[$place]->id;
+			$updateResults = $client->media->update($entryId, $mediaEntry);
+			
+			if($lastCreatedAt != $entry->createdAt)
+				$lastEntryIds = "";
+			if($lastEntryIds != "")
+				$lastEntryIds .= ",";
+			$lastEntryIds .= $entry->id;
+			$lastCreatedAt = $entry->createdAt;
+		}
+	}
+}
 else
-	print "No tags match your request";
+	print "null";

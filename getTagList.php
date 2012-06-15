@@ -39,6 +39,7 @@ if (!file_exists(TAG_CACHE) ||	(time() - $cachetime > filemtime(TAG_CACHE))) {
 				//Otherwise, add the new tag to the array
 				else
 					$tagArray[$tag] = 1;
+			}
 
 			if($lastCreatedAt != $entry->createdAt)
 				$lastEntryIds = "";
@@ -46,7 +47,6 @@ if (!file_exists(TAG_CACHE) ||	(time() - $cachetime > filemtime(TAG_CACHE))) {
 				$lastEntryIds .= ",";
 			$lastEntryIds .= $entry->id;
 			$lastCreatedAt = $entry->createdAt;
-			}
 		}
 	}
 // 	$filter = new KalturaMediaEntryFilter();

@@ -100,10 +100,11 @@ $client->setKs($ks);
 				url: "removeTags.php",
 				data: {tags: $('#removeTagsSelect').val()}
 			}).done(function(msg) {
-				$('#removeTagsSelect').val('');
-				updateTagList();
-				alert(msg);
-				window.location.reload();
+				if(msg !== "null") {
+					updateTagList();
+					alert(msg);
+					window.location.reload();
+				}
 			});
 		}
 		function searchEntries() {

@@ -201,7 +201,6 @@ $client->setKs($ks);
 	if($startPage == 1) $beforePageString .= create_gallery_pager(0, $page, $pageSize, $count, "pagerClicked");
 	$nextPage = $page + 1;
 	if ($page < $veryLastPage) $afterPageString .= "<a title='{$nextPage}' href='javascript:pagerClicked ($nextPage)'>Next</a> ";
-	print "hello";
 	$pagerString = "<span style=\"color:#ccc;\">Total (" . $count . ") </span>" . $beforePageString . $pagerString . $afterPageString;
 ?>
 <div class="addTagsDiv">Add tags (seperated by commas): 

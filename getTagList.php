@@ -49,33 +49,6 @@ if (!file_exists(TAG_CACHE) ||	(time() - $cachetime > filemtime(TAG_CACHE))) {
 			$lastCreatedAt = $entry->createdAt;
 		}
 	}
-// 	$filter = new KalturaMediaEntryFilter();
-// 	$filter->orderBy = KalturaMediaEntryOrderBy::CREATED_AT_DESC;
-// 	$pager->pageIndex = 1;
-// 	$results = $client->media->listAction($filter, $pager);
-// 	$count = $results->totalCount;
-// 	$endPage = (int)($count / $pageSize);
-// 	$endPage += ($count % $pageSize == 0) ? 0 : 1;
-// 	$tagArray = array();
-// 	//Stores each tag name as its own index and keeps a tally of how many times that tag is found
-// 	for($pageNum = 1; $pageNum <= $endPage; ++$pageNum) {
-// 		$pager->pageIndex = $pageNum;
-// 		if($pageNum > 1) 
-// 			$results = $client->media->listAction($filter, $pager);
-// 		foreach ($results->objects as $entry) {
-// 			$tags = explode(',', $entry->tags);
-// 			foreach ($tags as $tag) {
-// 				$tag = trim($tag);
-// 				if ($tag == "") continue;
-// 				//If the tag has already been discovered, increment its frequency
-// 				if (isset($tagArray[$tag]))
-// 					++$tagArray[$tag];
-// 				//Otherwise, add the new tag to the array
-// 				else
-// 					$tagArray[$tag] = 1;
-// 			}
-// 		}
-// 	}
 	//Stores the array of tags in a file that can be retrieved immediately for faster loading time
 	$tagArrayString = serialize($tagArray);
 	file_put_contents(TAG_CACHE, $tagArrayString);

@@ -102,12 +102,12 @@ if(array_key_exists('search', $_REQUEST))
 					showAllEntries("<?php echo $page;?>", "<?php echo $search; ?>");
 				}
 				else {
-					console.log($('#searchBar').val());
-					showAllEntries("<?php echo $page; ?>", $('#searchBar').val());
+					searchEntries();
 				}
 				reloadRemoveTags();
 			});
 		}
+		//Remove tags from the list and the entries
 		function removeTags() {
 			$.ajax({
 				type: "POST",
@@ -122,12 +122,12 @@ if(array_key_exists('search', $_REQUEST))
 						showAllEntries("<?php echo $page;?>", "<?php echo $search; ?>");
 					}
 					else {
-						console.log($('#searchBar').val());
-						showAllEntries("<?php echo $page; ?>", $('#searchBar').val());
+						searchEntries();
 					}
 				}
 			});
 		}
+		//Shows the entires that result from the search terms
 		function searchEntries() {
 			$.ajax({
 				type: "POST",
@@ -139,6 +139,7 @@ if(array_key_exists('search', $_REQUEST))
 					jQuery('.czntags').chosen({search_contains: true});
 			});
 		}
+		//Show all the entries
 		function showAllEntries(page, terms) {
 			$('#entryLoadBar').show();
 			$.ajax({
@@ -148,10 +149,11 @@ if(array_key_exists('search', $_REQUEST))
 			}).done(function(msg) {
 					$('#entryLoadBar').hide();
 					$('#entryList').html(msg);
+					$('#searchBar').val('');
 					jQuery('.czntags').chosen({search_contains: true});
 			});
 		}
-
+		//Refreshes the multiselect bar for removing tags
 		function reloadRemoveTags() {
 			$.ajax({
 				url: "reloadRemoveTagsSelect.php"
@@ -162,6 +164,7 @@ if(array_key_exists('search', $_REQUEST))
 		}
 	</script>
 	<script>
+		//When the page loads, show the tag list, the entries, and the remove tags multiselect
 		$(document).ready(function() {
 			updateTagList();
 			showAllEntries("<?php echo $page; ?>", "<?php echo $search; ?>");
@@ -187,7 +190,7 @@ if(array_key_exists('search', $_REQUEST))
 		Search by name, description, or tags: <input type="text" id="searchBar" autofocus="autofocus">
 		<button id="searchButton" class="searchButtonClass" type="button" onclick="searchEntries()">Search</button>
 		<?php 
-			echo "<button id=\"showButton\" type=\"button\" onclick=\"showAllEntries()\">Show All</button>";
+			echo '<button id="showButton" type="button" onclick="showAllEntries(1)">Show All</button>';
 		?>
 	</div>
 </div>

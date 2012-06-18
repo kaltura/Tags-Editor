@@ -1,7 +1,4 @@
 <?php
-if($_REQUEST['terms'] == "")
-	print 'null';
-else {
 	require_once("kalturaConfig.php");
 	require_once('php5/KalturaClient.php');
 	$tagArray = unserialize(file_get_contents(TAG_CACHE));
@@ -122,4 +119,3 @@ else {
 	    echo '<div class="clear"></div>';
 		++$count;
 	}
-}

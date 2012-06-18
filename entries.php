@@ -113,20 +113,21 @@ $client->setKs($ks);
 				url: "reloadEntries.php",
 				data: {terms: $('#searchBar').val()}
 			}).done(function(msg) {
-				if(msg !== "null") {
 					updateTagList();
 					$('#entryList').html(msg);
 					jQuery('.czntags').chosen({search_contains: true});
-				}
 			});
-			
-			//if($('#searchBar').val() != "") 
-				//window.location="?search="+ $('#searchBar').val() + "&pagenum=1";
-			//else
-				//window.location="?pagenum=1";
 		}
 		function showAllEntries() {
-			window.location = "?pagenum=1";
+			$.ajax({
+				type: "POST",
+				url: "reloadEntries.php",
+				data: {terms: ""}
+			}).done(function(msg) {
+					updateTagList();
+					$('#entryList').html(msg);
+					jQuery('.czntags').chosen({search_contains: true});
+			});
 		}
 	</script>
 	<script>
@@ -236,8 +237,7 @@ $client->setKs($ks);
 	Search by name, description, or tags: <input type="text" id="searchBar" autofocus="autofocus">
 	<button id="searchButton" class="searchButtonClass" type="button" onclick="searchEntries()">Search</button>
 	<?php 
-		if(array_key_exists('search', $_REQUEST))
-			print "<button id=\"showButton\" type=\"button\" onclick=\"showAllEntries()\">Show All</button>";
+		print "<button id=\"showButton\" type=\"button\" onclick=\"showAllEntries()\">Show All</button>";
 	?>
 </div>
 </div>

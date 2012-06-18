@@ -15,12 +15,17 @@
 	$pageSize = 20;
 	$page = 1;
 	//Retrieves the correct page number
+	if(array_key_exists('pagenum', $_REQUEST))
+		$page = $_REQUEST['pagenum'];
 	$pager->pageSize = $pageSize;
 	$pager->pageIndex = $page;
-	$filter->freeText = $_REQUEST['terms'];
+	
+	if(array_key_exists('search', $_REQUEST))
+		$filter->freeText = $_REQUEST['search'];
 	$results = $client->media->listAction($filter, $pager);
 	$count = $results->totalCount;
 	
+	//Creates an array that lists the tags for each entry
 	$tagsList = array();
 	$j = 0;
 	foreach ($results->objects as $entry) {
@@ -28,6 +33,7 @@
 		$j++;
 	}
 	
+	//This function creates a link to other entry pages
 	function create_gallery_pager  ($pageNumber, $current_page, $pageSize, $count, $js_callback_paging_clicked) {
 		$pageNumber = (int)$pageNumber;
 		$b = (($pageNumber+1) * $pageSize) ;
@@ -42,17 +48,17 @@
 		else
 			$pageToGoTo = $pageNumber + 1;
 		if ($pageToGoTo == $current_page) {
-			if(array_key_exists('terms', $_REQUEST)) {
-				$terms = $_REQUEST['terms'];
-				$str = "[<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$terms\")'>{$a}-{$b}</a>] ";
+			if(array_key_exists('search', $_REQUEST)) {
+				$search = $_REQUEST['search'];
+				$str = "[<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a>] ";
 			}
 			else
 				$str = "[<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo)'>{$a}-{$b}</a>] ";
 		}
 		else {
-			if(array_key_exists('terms', $_REQUEST)) {
-				$terms = $_REQUEST['terms'];
-				$str =  "<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$terms\")'>{$a}-{$b}</a> ";
+			if(array_key_exists('search', $_REQUEST)) {
+				$search = $_REQUEST['search'];
+				$str =  "<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a> ";
 			}
 			else
 				$str =  "<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo)'>{$a}-{$b}</a> ";

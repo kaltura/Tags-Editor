@@ -3,7 +3,7 @@ require_once("kalturaConfig.php");
 $cachetime = 5 * 60; //Cache time is 5 minutes
 //Only updates the Existing Tags list every time the cache time expires
 if (!file_exists(TAG_CACHE) ||	(time() - $cachetime > filemtime(TAG_CACHE))) {
-	require_once('php5/KalturaClient.php');
+	require_once('lib/php5/KalturaClient.php');
 	$config = new KalturaConfiguration(PARTNER_ID);
 	$config->serviceUrl = 'http://www.kaltura.com/';
 	$client = new KalturaClient($config);

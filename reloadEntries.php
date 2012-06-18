@@ -1,6 +1,6 @@
 <?php
 require_once("kalturaConfig.php");
-require_once('php5/KalturaClient.php');
+require_once('lib/php5/KalturaClient.php');
 $tagArray = unserialize(file_get_contents(TAG_CACHE));
 $config = new KalturaConfiguration(PARTNER_ID);
 $config->serviceUrl = 'http://www.kaltura.com/';
@@ -19,7 +19,7 @@ if(array_key_exists('pagenum', $_REQUEST))
 	$page = $_REQUEST['pagenum'];
 $pager->pageSize = $pageSize;
 $pager->pageIndex = $page;
-	
+
 if(array_key_exists('search', $_REQUEST))
 	$filter->freeText = $_REQUEST['search'];
 $results = $client->media->listAction($filter, $pager);
@@ -100,6 +100,7 @@ foreach ($results->objects as $result) {
 	$id = $result->id;
 	$display =  $result->thumbnailUrl ? "<img width='120' height='90' id='thumb$count' src='".$result->thumbnailUrl."' title='".$id." ".$name."' >" : "<div>".$id." ".$name."</div>";
 	$thumbnail = "<a href='javascript:entryClicked (\"$id\")'>{$display}</a>";
+	echo '<div id="entry'.$count.'">';
 	echo '<div class="float1">';
 		echo '<img src="lib/loading.gif" style="display: none; position: absolute;" id="loading_image'.$count.'">'.$thumbnail;
 	echo '</div>';
@@ -121,6 +122,7 @@ foreach ($results->objects as $result) {
 	echo '</div>';
     echo '<div class="float3">';
     	echo '<button id="btn'.$count.'" class="btnClass" type="button" onclick="tagSubmit('."'".$id."'".','.$count.')">Submit</button>';
+    echo '</div>';
     echo '</div>';
     echo '<div class="clear"></div>';
 	++$count;

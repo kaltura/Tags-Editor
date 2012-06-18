@@ -1,6 +1,6 @@
 <?php
 require_once("kalturaConfig.php");
-require_once('php5/KalturaClient.php');
+require_once('lib/php5/KalturaClient.php');
 $tagArray = unserialize(file_get_contents(TAG_CACHE));
 $config = new KalturaConfiguration(PARTNER_ID);
 $config->serviceUrl = 'http://www.kaltura.com/';

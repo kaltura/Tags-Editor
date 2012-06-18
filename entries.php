@@ -108,10 +108,22 @@ $client->setKs($ks);
 			});
 		}
 		function searchEntries() {
-			if($('#searchBar').val() != "") 
-				window.location="?search="+ $('#searchBar').val() + "&pagenum=1";
-			else
-				window.location="?pagenum=1";
+			$.ajax({
+				type: "POST",
+				url: "reloadEntries.php",
+				data: {terms: $('#searchBar').val()}
+			}).done(function(msg) {
+				if(msg !== "null") {
+					updateTagList();
+					$('#entryList').html(msg);
+					jQuery('.czntags').chosen({search_contains: true});
+				}
+			});
+			
+			//if($('#searchBar').val() != "") 
+				//window.location="?search="+ $('#searchBar').val() + "&pagenum=1";
+			//else
+				//window.location="?pagenum=1";
 		}
 		function showAllEntries() {
 			window.location = "?pagenum=1";
@@ -220,7 +232,6 @@ $client->setKs($ks);
 </div>
 <div><h1>List of entries:</h1>
 <p>Enter the tags for a media entry and click submit to update those tags.</p></div>
-<div class="pagerDiv"><?php echo $pagerString; ?></div>
 <div class="searchDiv">
 	Search by name, description, or tags: <input type="text" id="searchBar" autofocus="autofocus">
 	<button id="searchButton" class="searchButtonClass" type="button" onclick="searchEntries()">Search</button>
@@ -230,7 +241,8 @@ $client->setKs($ks);
 	?>
 </div>
 </div>
-<div class="capsule">
+<div class="capsule" id="entryList">
+<div class="pagerDiv"><?php echo $pagerString; ?></div>
 <?php 
 	//Uses a counter to keep track of each entry on the page
 	//Many elements such as id's and name's rely on this counter
@@ -257,7 +269,7 @@ $client->setKs($ks);
 						$pos = strpos($tagsList[$count],$tag);
 						if($pos === false) {}
 						else {
-							print " selected ";
+							print " selected";
 						}
 					?>><?php print $tag; ?>
 				</option>

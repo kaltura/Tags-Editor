@@ -44,6 +44,16 @@ $client->setKs($ks);
 			showEntries(1);
 			reloadRemoveTags();
 
+			$('#searchBar').keyup(function(event) {
+				if(event.which == 13)
+					showEntries();
+			});
+
+			$('#addTagsInput').keyup(function(event) {
+				if(event.which == 13)
+					addTags();
+			});
+
 			jQuery('.czntags').chosen({search_contains: true});
 		});
 		

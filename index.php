@@ -19,15 +19,18 @@ $client->setKs($ks);
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Tags Editor</title>
-	<link rel="stylesheet" href="lib/chosen/chosen.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="lib/chosen/chosen.jquery.js" type="text/javascript"></script>
+	<!-- Style Includes -->
 	<link href="entriesLayout.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="lib/facebox.css" media="screen" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="lib/chosen/chosen.css" />
+	<link href="lib/loadmask/jquery.loadmask.css" rel="stylesheet" type="text/css" />
+	<!-- Script Includes -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="lib/chosen/chosen.jquery.js" type="text/javascript"></script>
 	<script src="lib/facebox.js" type="text/javascript"></script>
 	<script src="http://cdnbakmi.kaltura.com/html5/html5lib/v1.6.12.16/mwEmbedLoader.php" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/loadmask/jquery.loadmask.min.js"></script>
-	<link href="lib/loadmask/jquery.loadmask.css" rel="stylesheet" type="text/css" />
+	<!-- Page Scripts -->
 	<script type="text/javascript">
 		//Keeps track of the page being viewed
 		var currentPage = 1;

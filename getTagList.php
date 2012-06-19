@@ -1,10 +1,21 @@
 <?php
 require_once("kalturaConfig.php");
-$cachetime = 5 * 60; //Cache time is 5 minutes
-//Only updates the Existing Tags list every time the cache time expires
-if (!file_exists(TAG_CACHE) ||	(time() - $cachetime > filemtime(TAG_CACHE))) {
+//We'll cache the tags for a day to avoid long waiting with large media libraries
+$cachetime = 24 * 60 * 60; 
+//If the cache time has not passed yet, do not recreate the tag array
+//Instead use the array that has been stored
+if (file_exists(TAG_CACHE) && (time() - $cachetime < filemtime(TAG_CACHE))) {
+	$tagString = file_get_contents(TAG_CACHE);
+	$tagArray = unserialize($tagString);
+	//Creates a string of every tag and its respective frequeny and returns it
+	$tagString = "";
+	foreach($tagArray as $tag => $tagCount) $tagString .= $tag.' ('.$tagCount.'), ';
+	echo substr($tagString, 0, -2);
+}
+//Only updates the tags list from the Kaltura API (media.list) when the cache has expired
+else {
 	//Includes the client library and starts a Kaltura session to access the API
-	//More informatation about this process can be found at
+	//More informatation about this process can be found at:
 	//http://knowledge.kaltura.com/introduction-kaltura-client-libraries
 	require_once('lib/php5/KalturaClient.php');
 	$config = new KalturaConfiguration(PARTNER_ID);
@@ -12,7 +23,7 @@ if (!file_exists(TAG_CACHE) ||	(time() - $cachetime > filemtime(TAG_CACHE))) {
 	$client = new KalturaClient($config);
 	$ks = $client->generateSession(ADMIN_SECRET, USER_ID, KalturaSessionType::ADMIN, PARTNER_ID);
 	$client->setKs($ks);
-	//Creates a pager that can parse the entries
+	//Creates a pager that can parse the entries (API's limit is 500 entries per request, so we get the maximum)
 	$pager = new KalturaFilterPager();
 	$pageSize = 500;
 	$pager->pageSize = $pageSize;
@@ -62,16 +73,6 @@ if (!file_exists(TAG_CACHE) ||	(time() - $cachetime > filemtime(TAG_CACHE))) {
 	//Stores the array of tags in a file that can be retrieved immediately for faster loading time
 	$tagArrayString = serialize($tagArray);
 	file_put_contents(TAG_CACHE, $tagArrayString);
-	//Creates a string of every tag and its respective frequeny and returns it
-	$tagString = "";
-	foreach($tagArray as $tag => $tagCount) $tagString .= $tag.' ('.$tagCount.'), ';
-	echo substr($tagString, 0, -2);
-}
-//If the cache time has not passed yet, do not recreate the tag array
-//Instead use the array that has been stored
-else {
-	$tagString = file_get_contents(TAG_CACHE);
-	$tagArray = unserialize($tagString);
 	//Creates a string of every tag and its respective frequeny and returns it
 	$tagString = "";
 	foreach($tagArray as $tag => $tagCount) $tagString .= $tag.' ('.$tagCount.'), ';

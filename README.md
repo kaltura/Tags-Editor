@@ -1,4 +1,4 @@
-Kaltura Tag Editor
+Kaltura Tags Editor
 ==================
 An efficient way to edit the tags for all the media entries in your account. 
 

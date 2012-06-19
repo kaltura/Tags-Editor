@@ -1,10 +1,11 @@
+<?php
+	require_once("kalturaConfig.php");
+	$partnerId = PARTNER_ID;
+	$entryId = $_REQUEST['entryid'];
+	$uiConfId = PLAYER_UICONF_ID;
+?>
 <html>
 	<head>
-		<?php
-			$partnerId = $_REQUEST['partnerid'];
-			$entryId = $_REQUEST['entryid'];
-			$uiConfId = '4289612';//$_REQUEST['uiconfid'];
-		?>
 		<script type="text/javascript" src="http://www.kaltura.com/p/<?php echo $partnerId; ?>/sp/<?php echo $partnerId; ?>00/embedIframeJs/uiconf_id/<?php echo $uiConfId; ?>/partner_id/<?php echo $partnerId; ?>"></script>
 	</head>
 	<body style="background-color:black;">

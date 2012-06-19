@@ -54,20 +54,12 @@ function create_gallery_pager  ($pageNumber, $current_page, $pageSize, $count, $
 	else
 		$pageToGoTo = $pageNumber + 1;
 	if ($pageToGoTo == $current_page) {
-		if(array_key_exists('search', $_REQUEST)) {
-			$search = $_REQUEST['search'];
-			$str = "[<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a>] ";
-		}
-		else
-			$str = "[<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo)'>{$a}-{$b}</a>] ";
+		$search = $_REQUEST['search'];
+		$str = "[<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a>] ";
 	}
 	else {
-		if(array_key_exists('search', $_REQUEST)) {
-			$search = $_REQUEST['search'];
-			$str =  "<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a> ";
-		}
-		else
-			$str =  "<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo)'>{$a}-{$b}</a> ";
+		$search = $_REQUEST['search'];
+		$str =  "<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a> ";
 	}
 	return $str;
 }
@@ -105,7 +97,7 @@ foreach ($results->objects as $result) {
 	$type = $result->mediaType;
 	$id = $result->id;
 	$display =  $result->thumbnailUrl ? "<img width='120' height='90' id='thumb$count' src='".$result->thumbnailUrl."' title='".$id." ".$name."' >" : "<div>".$id." ".$name."</div>";
-	$thumbnail = "<a href='javascript:entryClicked (\"$id\")'>{$display}</a>";
+	$thumbnail = "<a class='thumblink' rel='{$result->id}' href=\"#\">{$display}</a>";
 	echo '<div id="entry'.$count.'">';
 	echo '<div class="float1">';
 		echo '<img src="lib/loading.gif" style="display: none; position: absolute;" id="loading_image'.$count.'">'.$thumbnail;

@@ -1,13 +1,19 @@
 <?php
 require_once("kalturaConfig.php");
-require_once('lib/php5/KalturaClient.php');
+//Retrieves the array of tags from a cached file created by getTagList.php
 $tagArray = unserialize(file_get_contents(TAG_CACHE));
+//Includes the client library and starts a Kaltura session to access the API
+//More informatation about this process can be found at
+//http://knowledge.kaltura.com/introduction-kaltura-client-libraries
+require_once('lib/php5/KalturaClient.php');
 $config = new KalturaConfiguration(PARTNER_ID);
 $config->serviceUrl = 'http://www.kaltura.com/';
 $client = new KalturaClient($config);
 $ks = $client->generateSession(ADMIN_SECRET, USER_ID, KalturaSessionType::ADMIN, PARTNER_ID);
 $client->setKs($ks);
 
+//Filters the entries so that they are ordered by descending creation order
+//In other words, the newer videos show up on the front page
 $filter = new KalturaMediaEntryFilter();
 $filter->orderBy = KalturaPlayableEntryOrderBy::CREATED_AT_DESC;
 $pager = new KalturaFilterPager();
@@ -17,11 +23,11 @@ $page = 1;
 //Retrieves the correct page number
 if(array_key_exists('pagenum', $_REQUEST))
 	$page = $_REQUEST['pagenum'];
-$pager->pageSize = $pageSize;
-$pager->pageIndex = $page;
-
+//If a search has been made, display only the entries that match the search terms
 if(array_key_exists('search', $_REQUEST))
 	$filter->freeText = $_REQUEST['search'];
+$pager->pageSize = $pageSize;
+$pager->pageIndex = $page;
 $results = $client->media->listAction($filter, $pager);
 $count = $results->totalCount;
 
@@ -94,7 +100,7 @@ echo '<div class="pagerDiv">'.$pagerString.'</div>';
 $count = 0;
 //Loops through every entry on your current page
 foreach ($results->objects as $result) {
-//Creates a thumbnail that can be clicked to view the content
+	//Creates a thumbnail that can be clicked to view the content
 	$name = $result->name;
 	$type = $result->mediaType;
 	$id = $result->id;

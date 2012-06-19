@@ -1,6 +1,9 @@
 <?php
 require_once("kalturaConfig.php");
 require_once('lib/php5/KalturaClient.php');
+//Includes the client library and starts a Kaltura session to access the API
+//More informatation about this process can be found at
+//http://knowledge.kaltura.com/introduction-kaltura-client-libraries
 $config = new KalturaConfiguration(PARTNER_ID);
 $config->serviceUrl = 'http://www.kaltura.com/';
 $client = new KalturaClient($config);
@@ -12,6 +15,7 @@ $version = null;
 $result = $client->media->get($entryId, $version);
 //Gets the tags for the entry before the update occurs
 $oldTags = explode(',', $result->tags);
+//Retrieves the array of tags from a cached file created by getTagList.php
 $tagArray = unserialize(file_get_contents(TAG_CACHE));
 //Decreases the frequency for tags being removed
 foreach($oldTags as $index => $tag) {

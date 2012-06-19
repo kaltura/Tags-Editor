@@ -1,11 +1,12 @@
 <!DOCTYPE HTML>
 <?php
-//Retrieves the array of tags from a cached file created by getTagList.php
 require_once("kalturaConfig.php");
-if(file_exists(TAG_CACHE)) {
-	$tagString = file_get_contents(TAG_CACHE);
-	$tagArray = unserialize($tagString);
-}
+//Retrieves the array of tags from a cached file created by getTagList.php
+$tagString = file_get_contents(TAG_CACHE);
+$tagArray = unserialize($tagString);
+//Includes the client library and starts a Kaltura session to access the API
+//More informatation about this process can be found at 
+//http://knowledge.kaltura.com/introduction-kaltura-client-libraries
 require_once('lib/php5/KalturaClient.php');
 $config = new KalturaConfiguration(PARTNER_ID);
 $config->serviceUrl = 'http://www.kaltura.com/';
@@ -13,12 +14,6 @@ $client = new KalturaClient($config);
 $ks = $client->generateSession(ADMIN_SECRET, USER_ID, KalturaSessionType::ADMIN, PARTNER_ID);
 $client->setKs($ks);
 
-$page = 1;
-if(array_key_exists('pagenum', $_REQUEST))
-	$page = $_REQUEST['pagenum'];
-$search = "";
-if(array_key_exists('search', $_REQUEST))
-	$search = $_REQUEST['search'];
 ?>
 <html>
 <head>
@@ -36,35 +31,30 @@ if(array_key_exists('search', $_REQUEST))
 	<link href="lib/facebox.css" media="screen" rel="stylesheet" type="text/css" />
 	<script src="lib/facebox.js" type="text/javascript"></script>
 	<script src="http://cdnbakmi.kaltura.com/html5/html5lib/v1.6.12.16/mwEmbedLoader.php" type="text/javascript"></script>
+	<script type="text/javascript" src="lib/loadmask/jquery.loadmask.min.js"></script>
+	<link href="lib/loadmask/jquery.loadmask.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(document).ready(function($) {
 			$.facebox.settings.closeImage = './lib/closelabel.png';
 			$.facebox.settings.loadingImage = './lib/loading.gif';
 		});
 	</script>
-	<script type="text/javascript" src="lib/loadmask/jquery.loadmask.min.js"></script>
-	<link href="lib/loadmask/jquery.loadmask.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" >
+		//Keeps track of the page being viewed
 		var currentPage = 1;
+		//Initializes the player when a thumbnail is clicked
 		function entryClicked (entry_id) {
 			var playerurl = 'player.php?entryid=' + entry_id + '&partnerid=<?php echo PARTNER_ID; ?>';
 			$.facebox({ajax:playerurl});
 		}
+		//Responds to the page number index that is clicked
 		function pagerClicked (pageNumber, search)	{
 			currentPage = pageNumber;
-			showAllEntries(pageNumber, search);
-		}
-		//Positions a loader image on the thumbnail of the entry being updated
-		function alignLoaderImage(entryCount) {
-			var p = $('#thumb'+entryCount).position();
-			pleft = p.left;
-			ptop = p.top;
-			$('#loading_image'+entryCount).css({"top": ptop+29, "left": pleft+44});
-			$('#loading_image'+entryCount).show();
+			showAllEntries(pageNumber);
 		}
 		//Called whenever the user submits new tags for an entry
 		function tagSubmit(id, entryCount) {
-			alignLoaderImage(entryCount);
+			//Masks the entry until it is successfully updated
 			$('#entry'+entryCount).mask("Loading...");
 			$.ajax({
 			  type: "POST",
@@ -75,8 +65,6 @@ if(array_key_exists('search', $_REQUEST))
 				$("#entry"+entryCount).unmask();
 				$('#tagDiv').hide();
 				updateTagList();
-				//Announces that the tags have been updated
-			    alert(msg);
 			});
 		}
 		//Updates the existing tags for the entries
@@ -105,12 +93,10 @@ if(array_key_exists('search', $_REQUEST))
 				$('#addTagsInput').val('');
 				$('#loadBar').hide();
 				updateTagList();
-				if($('#searchBar').val() == "") {
-					showAllEntries(currentPage, "<?php echo $search; ?>");
-				}
-				else {
+				if($('#searchBar').val() == "")
+					showAllEntries(currentPage);
+				else
 					searchEntries();
-				}
 				reloadRemoveTags();
 			});
 		}
@@ -129,12 +115,10 @@ if(array_key_exists('search', $_REQUEST))
 					reloadRemoveTags();
 					$('#loadBar').hide();
 					updateTagList();
-					if($('#searchBar').val() == "") {
-						showAllEntries(currentPage, "<?php echo $search; ?>");
-					}
-					else {
+					if($('#searchBar').val() == "")
+						showAllEntries(currentPage);
+					else
 						searchEntries();
-					}
 				}
 			});
 		}
@@ -154,14 +138,14 @@ if(array_key_exists('search', $_REQUEST))
 					jQuery('.czntags').chosen({search_contains: true});
 			});
 		}
-		//Show all the entries
-		function showAllEntries(page, terms) {
+		//Show all the entries for a given page
+		function showAllEntries(page) {
 			$('#entryLoadBar').show();
 			$('#entryList').hide();
 			$.ajax({
 				type: "POST",
 				url: "reloadEntries.php",
-				data: {search: terms, pagenum: page}
+				data: {pagenum: page}
 			}).done(function(msg) {
 					$('#entryLoadBar').hide();
 					$('#entryList').show();
@@ -182,7 +166,7 @@ if(array_key_exists('search', $_REQUEST))
 		//When the page loads, show the tag list, the entries, and the remove tags multiselect
 		$(document).ready(function() {
 			updateTagList();
-			showAllEntries("<?php echo $page; ?>", "<?php echo $search; ?>");
+			showAllEntries(1);
 			reloadRemoveTags();
 		});
 	</script>
@@ -190,7 +174,7 @@ if(array_key_exists('search', $_REQUEST))
 <body>
 <div id="wrapper">
 	<div><h1>Existing tags:</h1></div>
-	<div><img src="loadBar.gif" style="display: none;" id="loadBar"></div>
+	<div><img src="lib/loadBar.gif" style="display: none;" id="loadBar"></div>
 	<div id="tagDiv"></div>
 	<div id="userTags">
 	<div class="addTagsDiv">Add tags (seperated by commas): 
@@ -213,7 +197,7 @@ if(array_key_exists('search', $_REQUEST))
 	</div>
 </div>
 <div class="capsule">
-<div><img src="loadBar.gif" style="display: none;" id="entryLoadBar"></div>
+<div><img src="lib/loadBar.gif" style="display: none;" id="entryLoadBar"></div>
 <div id="entryList"></div>
 </div>
 </body>

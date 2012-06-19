@@ -1,9 +1,9 @@
 Kaltura Tag Editor
-------------------
+==================
 An efficient way to edit the tags for all the media entries in your account. 
 
 Files
-=====
+-----
 
 * addNewTags.php - Adds new tags to the cache for efficient applying of tags to entries
 * entriesLayout.css - The styling for the front page
@@ -18,7 +18,7 @@ Files
 * updateEntry.php - Updates an entry whenever tags are added or removed
 
 Folders
-=======
+-------
 
 * lib - Contains scripts and images needed for displaying the page and player
 * lib/chosen - Contains the Chosen javascript plugin

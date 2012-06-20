@@ -13,7 +13,6 @@ $config->serviceUrl = 'http://www.kaltura.com/';
 $client = new KalturaClient($config);
 $ks = $client->generateSession(ADMIN_SECRET, USER_ID, KalturaSessionType::ADMIN, PARTNER_ID);
 $client->setKs($ks);
-
 ?>
 <html>
 <head>
@@ -40,8 +39,8 @@ $client->setKs($ks);
 			$.facebox.settings.loadingImage = './lib/loading.gif';
 
 			//When the page loads, show the tag list, the entries, and the remove tags multiselect
+			showEntries();
 			updateTagList();
-			showEntries(1);
 			reloadRemoveTags();
 
 			$('#searchBar').keyup(function(event) {
@@ -170,6 +169,7 @@ $client->setKs($ks);
 	</script>
 </head>
 <body>
+<a href="https://github.com/kaltura/Tags-Editor"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
 	<div id="wrapper">
 		<div><h1>Existing tags:</h1></div>
 		<div><img src="lib/loadBar.gif" style="display: none;" id="loadBar"></div>

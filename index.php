@@ -93,47 +93,49 @@ $client->setKs($ks);
 
 		//Adds tags to the list
 		function addTags() {
-			$('#tagDiv').hide();
-			$('#loadBar').show();
-			$('#userTags').mask();
-			$.ajax({
-				type: "POST",
-				url: "addNewTags.php",
-				data: {tags: $('#addTagsInput').val()}
-			}).done(function(msg) {
-				$('#userTags').unmask();
-				$('#addTagsInput').val('');
-				$('#loadBar').hide();
-				updateTagList();
-				if($('#searchBar').val() == "")
-					showEntries(currentPage);
-				else
-					showEntries();
-				reloadRemoveTags();
-			});
-		}
-
-		//Remove tags from the list and the entries
-		function removeTags() {
-			$('#loadBar').show();
-			$('#tagDiv').hide();
-			$('#userTags').mask();
-			$.ajax({
-				type: "POST",
-				url: "removeTags.php",
-				data: {tags: $('#removeTagsSelect').val()}
-			}).done(function(msg) {
-				$('#userTags').unmask();
-				if(msg !== "null") {
-					reloadRemoveTags();
+			if($('#addTagsInput').val() != "") {
+				$('#tagDiv').hide();
+				$('#loadBar').show();
+				$('#userTags').mask();
+				$.ajax({
+					type: "POST",
+					url: "addNewTags.php",
+					data: {tags: $('#addTagsInput').val()}
+				}).done(function(msg) {
+					$('#userTags').unmask();
+					$('#addTagsInput').val('');
 					$('#loadBar').hide();
 					updateTagList();
 					if($('#searchBar').val() == "")
 						showEntries(currentPage);
 					else
 						showEntries();
-				}
-			});
+					reloadRemoveTags();
+				});
+			}
+		}
+
+		//Remove tags from the list and the entries
+		function removeTags() {
+			if($('#removeTagsSelect').val() != null) {
+				$('#loadBar').show();
+				$('#tagDiv').hide();
+				$('#userTags').mask();
+				$.ajax({
+					type: "POST",
+					url: "removeTags.php",
+					data: {tags: $('#removeTagsSelect').val()}
+				}).done(function(msg) {
+					$('#userTags').unmask();
+						reloadRemoveTags();
+						$('#loadBar').hide();
+						updateTagList();
+						if($('#searchBar').val() == "")
+							showEntries(currentPage);
+						else
+							showEntries();
+				});
+			}
 		}
 
 		//Show all the entries for a given page based on search terms or lack thereof

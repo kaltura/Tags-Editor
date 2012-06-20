@@ -24,7 +24,7 @@ $page = 1;
 if(array_key_exists('pagenum', $_REQUEST))
 	$page = $_REQUEST['pagenum'];
 //If a search has been made, display only the entries that match the search terms
-$search = $_REQUEST['search'];
+$search = trim($_REQUEST['search']);
 $filter->freeText = $search;
 $pager->pageSize = $pageSize;
 $pager->pageIndex = $page;
@@ -41,7 +41,7 @@ foreach ($results->objects as $entry) {
 	
 //This function creates a link to other entry pages
 function create_gallery_pager  ($pageNumber, $current_page, $pageSize, $count, $js_callback_paging_clicked) {
-	$search = $_REQUEST['search'];
+	$search = trim($_REQUEST['search']);
 	$pageNumber = (int)$pageNumber;
 	$b = (($pageNumber+1) * $pageSize) ;
 	$b = min ( $b , $count ); // don't let the page-end be bigger than the total count
@@ -78,7 +78,7 @@ $afterPageString = "";
 $prevPage = $page - 1;
 if($page > 1) $beforePageString .= "<a title='{$prevPage}' href='javascript:pagerClicked ($prevPage, \"$search\")'>Previous</a> ";
 // add page 0 if not in list
-if($startPage == 1) $beforePageString .= create_gallery_pager(0, $page, $pageSize, $count, "pagerClicked");
+if($startPage == 1 && $count > 0) $beforePageString .= create_gallery_pager(0, $page, $pageSize, $count, "pagerClicked");
 $nextPage = $page + 1;
 if ($page < $veryLastPage) $afterPageString .= "<a title='{$nextPage}' href='javascript:pagerClicked ($nextPage, \"$search\")'>Next</a> ";
 $pagerString = "<span style=\"color:#ccc;\">Total (" . $count . ") </span>" . $beforePageString . $pagerString . $afterPageString;

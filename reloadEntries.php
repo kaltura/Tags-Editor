@@ -24,8 +24,8 @@ $page = 1;
 if(array_key_exists('pagenum', $_REQUEST))
 	$page = $_REQUEST['pagenum'];
 //If a search has been made, display only the entries that match the search terms
-if(array_key_exists('search', $_REQUEST))
-	$filter->freeText = $_REQUEST['search'];
+$search = $_REQUEST['search'];
+$filter->freeText = $search;
 $pager->pageSize = $pageSize;
 $pager->pageIndex = $page;
 $results = $client->media->listAction($filter, $pager);
@@ -41,6 +41,7 @@ foreach ($results->objects as $entry) {
 	
 //This function creates a link to other entry pages
 function create_gallery_pager  ($pageNumber, $current_page, $pageSize, $count, $js_callback_paging_clicked) {
+	$search = $_REQUEST['search'];
 	$pageNumber = (int)$pageNumber;
 	$b = (($pageNumber+1) * $pageSize) ;
 	$b = min ( $b , $count ); // don't let the page-end be bigger than the total count
@@ -53,14 +54,10 @@ function create_gallery_pager  ($pageNumber, $current_page, $pageSize, $count, $
 	}
 	else
 		$pageToGoTo = $pageNumber + 1;
-	if ($pageToGoTo == $current_page) {
-		$search = $_REQUEST['search'];
+	if ($pageToGoTo == $current_page)
 		$str = "[<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a>] ";
-	}
-	else {
-		$search = $_REQUEST['search'];
+	else
 		$str =  "<a title='{$pageToGoTo}' href='javascript:{$js_callback_paging_clicked} ($pageToGoTo, \"$search\")'>{$a}-{$b}</a> ";
-	}
 	return $str;
 }
 //The server may pull entries up to the hard limit. This number should not exceed 10000.
@@ -79,11 +76,11 @@ for ($pageNumber = $startPage; $pageNumber < $endPage; ++$pageNumber) {
 $beforePageString = "";
 $afterPageString = "";
 $prevPage = $page - 1;
-if($page > 1) $beforePageString .= "<a title='{$prevPage}' href='javascript:pagerClicked ($prevPage)'>Previous</a> ";
+if($page > 1) $beforePageString .= "<a title='{$prevPage}' href='javascript:pagerClicked ($prevPage, \"$search\")'>Previous</a> ";
 // add page 0 if not in list
 if($startPage == 1) $beforePageString .= create_gallery_pager(0, $page, $pageSize, $count, "pagerClicked");
 $nextPage = $page + 1;
-if ($page < $veryLastPage) $afterPageString .= "<a title='{$nextPage}' href='javascript:pagerClicked ($nextPage)'>Next</a> ";
+if ($page < $veryLastPage) $afterPageString .= "<a title='{$nextPage}' href='javascript:pagerClicked ($nextPage, \"$search\")'>Next</a> ";
 $pagerString = "<span style=\"color:#ccc;\">Total (" . $count . ") </span>" . $beforePageString . $pagerString . $afterPageString;
 
 echo '<div class="pagerDiv">'.$pagerString.'</div>';

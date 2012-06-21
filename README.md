@@ -29,4 +29,4 @@ Folders
 	
 Note
 ----
-For faster loading, upon the first load of the page a file named tagCaching.txt is created to store the array of tags. This cache is updated when the tool is being used but any new tags that are entered elsewhere will not show up until the cache file is deleted. 
+For faster loading, upon the first load of the page a file named tagCaching.txt is created to store the array of tags. This cache is updated when the tool is being used but any new tags that are entered elsewhere (eg., KMC or through the API) will not show up until the cache file is deleted. 

@@ -4,8 +4,8 @@ require_once("kalturaConfig.php");
 $cachetime = 24 * 60 * 60; 
 //If the cache time has not passed yet, do not recreate the tag array
 //Instead use the array that has been stored
-if (file_exists(TAG_CACHE) && (time() - $cachetime < filemtime(TAG_CACHE))) {
-	$tagString = @file_get_contents(TAG_CACHE);
+$tagString = @file_get_contents(TAG_CACHE);
+if ($tagString != '' && (time() - $cachetime < filemtime(TAG_CACHE))) {
 	$tagArray = unserialize($tagString);
 	//Creates a string of every tag and its respective frequeny and returns it
 	$tagString = "";

@@ -28,6 +28,8 @@ $client->setKs($ks);
 	<script type="text/javascript" src="lib/loadmask/jquery.loadmask.min.js"></script>
 	<!-- Page Scripts -->
 	<script type="text/javascript">
+		//are we loading the page or just calling ajax triggerd by user interaction?
+		var firstload = true;
 		//Keeps track of the page being viewed
 		var currentPage = 1;
 		$(document).ready(function($) {
@@ -47,8 +49,6 @@ $client->setKs($ks);
 				$('.notep').hide();
 				//When the page loads, show the tag list, the entries, and the remove tags multiselect
 				updateTagList();
-				showEntries();
-				reloadRemoveTags();
 				$('#searchBar').keyup(function(event) {
 					if(event.which == 13)
 						showEntries();
@@ -93,6 +93,11 @@ $client->setKs($ks);
 				$('#loadBar').hide();
 				$('#tagDiv').show();
 				$('#tagDiv').text(msg);
+				if (firstload) {
+					showEntries();
+					reloadRemoveTags();
+					firstload = false;
+				}
 			});
 		}
 

@@ -81,3 +81,13 @@ div.clear {
 .thumblink {
 	margin-right: 20px;
 }
+
+#addTagsInput {
+    width: 220px;
+    margin: 0;
+    padding: 0;
+}
+
+#addTagsButton {
+	margin: 0;
+}

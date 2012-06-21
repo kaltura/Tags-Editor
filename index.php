@@ -33,27 +33,36 @@ $client->setKs($ks);
 	<script type="text/javascript">
 		//Keeps track of the page being viewed
 		var currentPage = 1;
-		
 		$(document).ready(function($) {
 			$.facebox.settings.closeImage = './lib/closelabel.png';
 			$.facebox.settings.loadingImage = './lib/loading.gif';
 
-			//When the page loads, show the tag list, the entries, and the remove tags multiselect
-			showEntries();
-			updateTagList();
-			reloadRemoveTags();
+			if(<?php echo '"'.ADMIN_SECRET.'"'; ?> == 'xxxx' || <?php echo '"'.PARTNER_ID.'"'; ?> == 000) {
+				$('#addTagsButton').attr('disabled', 'disabled');
+				$('#removeTagsButton').attr('disabled', 'disabled');
+				$('#searchButton').attr('disabled', 'disabled');
+				$('#showButton').attr('disabled', 'disabled');
+				$('#searchBar').attr('disabled', 'disabled');
+				$('#addTagsInput').attr('disabled', 'disabled');
+				$('#removeTagsSelect').attr('disabled', 'disabled');
+			}
+			else {
+				$('.notep').hide();
+				//When the page loads, show the tag list, the entries, and the remove tags multiselect
+				showEntries();
+				updateTagList();
+				reloadRemoveTags();
+				$('#searchBar').keyup(function(event) {
+					if(event.which == 13)
+						showEntries();
+				});
 
-			$('#searchBar').keyup(function(event) {
-				if(event.which == 13)
-					showEntries();
-			});
-
-			$('#addTagsInput').keyup(function(event) {
-				if(event.which == 13)
-					addTags();
-			});
-
-			jQuery('.czntags').chosen({search_contains: true});
+				$('#addTagsInput').keyup(function(event) {
+					if(event.which == 13)
+						addTags();
+				});
+				jQuery('.czntags').chosen({search_contains: true});
+			}
 		});
 		
 		//Responds to the page number index that is clicked
@@ -136,6 +145,8 @@ $client->setKs($ks);
 							showEntries();
 				});
 			}
+			else
+				alert("damn");
 		}
 
 		//Show all the entries for a given page based on search terms or lack thereof
@@ -149,13 +160,13 @@ $client->setKs($ks);
 				url: "reloadEntries.php",
 				data: {pagenum: page, search: $('#searchBar').val()}
 			}).done(function(msg) {
-					$('#entryLoadBar').hide();
-					$('#entryList').show();
-					$('#entryList').html(msg);
-					$(".thumblink").click(function () {
-						$.facebox({ajax:'player.php?entryid=' + $(this).attr('rel')});
-				    });
-					jQuery('.czntags').chosen({search_contains: true});
+				$('#entryLoadBar').hide();
+				$('#entryList').show();
+				$('#entryList').html(msg);
+				$(".thumblink").click(function () {
+					$.facebox({ajax:'player.php?entryid=' + $(this).attr('rel')});
+			    });
+				jQuery('.czntags').chosen({search_contains: true});
 			});
 		}
 
@@ -174,6 +185,7 @@ $client->setKs($ks);
 <a href="https://github.com/kaltura/Tags-Editor"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
 	<div id="wrapper">
 		<div><h1>Existing tags:</h1></div>
+		<div class="notep">NOTE: Make sure to set your partner id and admin secret in kalturaConfig.php</div>
 		<div><img src="lib/loadBar.gif" style="display: none;" id="loadBar"></div>
 		<div id="tagDiv"></div>
 		<div id="userTags">
@@ -186,6 +198,7 @@ $client->setKs($ks);
 				<button id="removeTagsButton" class="removeTagsButtonClass" type="button" onclick="removeTags()">Submit</button>
 			</div>
 		</div>
+		
 		<div>
 			<h1>List of entries:</h1>
 			<p>Enter the tags for a media entry and click submit to update those tags.</p>

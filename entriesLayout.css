@@ -11,6 +11,10 @@ h1 {
 	font-size:2em;
 }
 
+div.notep {
+	font-size: 14px; background: #cccfff url(http://cdnknowledge.kaltura.com//sites/all/themes/kaltura_theme/tinymce_styles/images/note_icons.png) no-repeat left center; padding-left: 80px; min-height: 56px; display: block; padding-top: 5px; margin-top: 15px; margin-bottom: 15px;
+}
+
 div.pagerDiv {
 	padding-bottom: 15px;
 }

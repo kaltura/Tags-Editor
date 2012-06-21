@@ -25,6 +25,16 @@ if(array_key_exists('pagenum', $_REQUEST))
 	$page = $_REQUEST['pagenum'];
 //If a search has been made, display only the entries that match the search terms
 $search = trim($_REQUEST['search']);
+function escapeChar($input)
+{
+	$input = '\\'.$input[0];
+	return $input;
+}
+$search = preg_replace_callback('|[#-/]|','escapeChar',$search);
+$search = preg_replace_callback('|!|','escapeChar',$search);
+$search = preg_replace_callback('|"|','escapeChar',$search);
+$search = preg_replace_callback('|-|','escapeChar',$search);
+$search = preg_replace_callback('|\\/|','escapeChar',$search);
 $filter->freeText = $search;
 $pager->pageSize = $pageSize;
 $pager->pageIndex = $page;

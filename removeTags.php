@@ -14,10 +14,20 @@ $client->setKs($ks);
 //Formats the tags correctly
 $tags = $_REQUEST['tags'];
 //Removes the tags from the cache
-foreach($tags as $deleteTag)
+foreach($tags as $index => $deleteTag) {
 	unset($tagArray[$deleteTag]);
-
+}
+function escapeChar($input)
+{
+	$input = '\\'.$input[0];
+	return $input;
+}
 $tagString = implode(',', $tags);
+$tagString = preg_replace_callback('|[#-/]|','escapeChar',$tagString);
+$tagString = preg_replace_callback('|!|','escapeChar',$tagString);
+$tagString = preg_replace_callback('|"|','escapeChar',$tagString);
+$tagString = preg_replace_callback('|-|','escapeChar',$tagString);
+$tagString = preg_replace_callback('|\\/|','escapeChar',$tagString);
 $pager = new KalturaFilterPager();
 $pageSize = 500;
 $pager->pageSize = $pageSize;

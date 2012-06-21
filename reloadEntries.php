@@ -104,7 +104,7 @@ foreach ($results->objects as $result) {
 	$type = $result->mediaType;
 	$id = $result->id;
 	$display =  $result->thumbnailUrl ? "<img width='120' height='90' id='thumb$count' src='".$result->thumbnailUrl."' title='".$id." ".$name."' >" : "<div>".$id." ".$name."</div>";
-	$thumbnail = "<a class='thumblink' rel='{$result->id}' href=\"#\">{$display}</a>";
+	$thumbnail = "<a class='thumblink' rel='{$result->id}' >{$display}</a>";
 	echo '<div id="entry'.$count.'">';
 	echo '<div class="float1">';
 		echo '<img src="lib/loading.gif" style="display: none; position: absolute;" id="loading_image'.$count.'">'.$thumbnail;

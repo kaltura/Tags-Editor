@@ -53,7 +53,6 @@ $client->setKs($ks);
 					if(event.which == 13)
 						showEntries();
 				});
-
 				$('#addTagsInput').keyup(function(event) {
 					if(event.which == 13)
 						addTags();
@@ -194,6 +193,7 @@ $client->setKs($ks);
 				<div class="removeTagSelectDiv" id="removeSelect"></div>
 				<button id="removeTagsButton" class="removeTagsButtonClass" type="button" onclick="removeTags()">Submit</button>
 			</div>
+			<div class="clear"></div>
 		</div>
 		
 		<div>

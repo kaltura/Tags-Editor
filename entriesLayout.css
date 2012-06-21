@@ -56,16 +56,28 @@ div.float1 {
 
 div.float2 {
 	float:left;
-	padding-top: 61px;
 	padding-left: 3px;
 }
 
 div.float3 {
 	float:left;
-	padding-top: 61px;
+	padding-top: 33px;
 }
 
 div.clear {
 	clear:both;
 	padding-top: 3px;
+}
+
+.capsule .chzn-container-multi .chzn-choices {
+	min-height: 90px !important;
+}
+
+.btnClass {
+	float: right;
+	margin: 0 20px;
+}
+
+.thumblink {
+	margin-right: 20px;
 }

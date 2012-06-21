@@ -124,10 +124,8 @@ foreach ($results->objects as $result) {
 					echo '</option>';
 			}
 	    echo '</select>';
+	    echo '<button id="btn'.$count.'" class="btnClass" type="button" onclick="tagSubmit('."'".$id."'".','.$count.')">Submit</button>';
 	echo '</div>';
-    echo '<div class="float3">';
-    	echo '<button id="btn'.$count.'" class="btnClass" type="button" onclick="tagSubmit('."'".$id."'".','.$count.')">Submit</button>';
-    echo '</div>';
     echo '</div>';
     echo '<div class="clear"></div>';
 	++$count;

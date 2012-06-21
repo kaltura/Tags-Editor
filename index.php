@@ -1,9 +1,6 @@
 <!DOCTYPE HTML>
 <?php
 require_once("kalturaConfig.php");
-//Retrieves the array of tags from a cached file created by getTagList.php
-$tagString = file_get_contents(TAG_CACHE);
-$tagArray = unserialize($tagString);
 //Includes the client library and starts a Kaltura session to access the API
 //More informatation about this process can be found at 
 //http://knowledge.kaltura.com/introduction-kaltura-client-libraries
@@ -49,8 +46,8 @@ $client->setKs($ks);
 			else {
 				$('.notep').hide();
 				//When the page loads, show the tag list, the entries, and the remove tags multiselect
-				showEntries();
 				updateTagList();
+				showEntries();
 				reloadRemoveTags();
 				$('#searchBar').keyup(function(event) {
 					if(event.which == 13)

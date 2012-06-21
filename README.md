@@ -30,4 +30,4 @@ Folders
 	
 Notes
 -----
-Note: The first time you load the Tags Editor, tagCaching.txt will fill with your tags from the server. After that, it will continue using this cache rather than accessing the server. If you update your tags from anywhere other than the Tags Editor, you must delete this file and open the Editor again.__
+The first time you load the Tags Editor, tagCaching.txt will fill with your tags from the server. After that, it will continue using this cache rather than accessing the server. If you update your tags from anywhere other than the Tags Editor, you must delete tagCaching.txt and open the Editor again.

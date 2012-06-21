@@ -17,7 +17,7 @@ Files
 * tagCaching.txt - Where the array of tags is stored for efficient loading
 	__Note: The first time you load the Tags Editor, this file will fill with your tags from the server.
 	After that, it will continue using this cache rather than accessing the server. If you update your
-	tags from anywhere other than the Tags Editor, you must delete this file and open the Editor again.
+	tags from anywhere other than the Tags Editor, you must delete this file and open the Editor again.__
 * updateEntry.php - Updates an entry whenever tags are added or removed
 
 Folders

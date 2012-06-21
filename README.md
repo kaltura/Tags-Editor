@@ -15,9 +15,6 @@ Files
 * reloadRemoveTagsSelect.php - Displays an up to date multiple select to delete tags
 * removeTags.php - Deletes any tags requested from the tag cache and removes them from entries
 * tagCaching.txt - Where the array of tags is stored for efficient loading
-	__Note: The first time you load the Tags Editor, this file will fill with your tags from the server.
-	After that, it will continue using this cache rather than accessing the server. If you update your
-	tags from anywhere other than the Tags Editor, you must delete this file and open the Editor again.__
 * updateEntry.php - Updates an entry whenever tags are added or removed
 
 Folders
@@ -30,3 +27,7 @@ Folders
 	(http://code.google.com/p/jquery-loadmask/)
 * lib/php5 - Contains the Kaltura PHP5 client library
 	(http://www.kaltura.com/api_v3/testme/client-libs.php)
+	
+Notes
+-----
+Note: The first time you load the Tags Editor, tagCaching.txt will fill with your tags from the server. After that, it will continue using this cache rather than accessing the server. If you update your tags from anywhere other than the Tags Editor, you must delete this file and open the Editor again.__

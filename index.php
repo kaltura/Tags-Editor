@@ -183,7 +183,7 @@ $client->setKs($ks);
 	</script>
 </head>
 <body>
-<a href="https://github.com/kaltura/Tags-Editor"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+	<a href="https://github.com/kaltura/Tags-Editor"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
 	<div id="wrapper">
 		<div><h1>Existing tags:</h1></div>
 		<div class="notep">NOTE: Make sure to set your partner id and admin secret in kalturaConfig.php</div>

@@ -115,7 +115,7 @@ foreach ($results->objects as $result) {
         		echo '<option value="'.$tag.'"';
             		//Checks to see if the particular entry has any tags already
             		//Any tags found are pre-selected in the multiselect field
- 					$pos = strpos($tagsList[$count],$tag);
+ 					$pos = strpos(' '.$tagsList[$count].',', ' '.$tag.',');
  					if($pos === false) {}
  					else {
  						echo " selected";

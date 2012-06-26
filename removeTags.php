@@ -22,8 +22,9 @@ function escapeChar($input)
 	$input = '\\'.$input[0];
 	return $input;
 }
-$tagString = implode(',', $tags);
-$tagString = preg_replace_callback('|[#-/]|','escapeChar',$tagString);
+$tagString = implode(', ', $tags);
+$tagString = preg_replace_callback('|[#-+]|','escapeChar',$tagString);
+$tagString = preg_replace_callback('|[--/]|','escapeChar',$tagString);
 $tagString = preg_replace_callback('|!|','escapeChar',$tagString);
 $tagString = preg_replace_callback('|"|','escapeChar',$tagString);
 $tagString = preg_replace_callback('|-|','escapeChar',$tagString);

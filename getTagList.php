@@ -47,7 +47,7 @@ else {
 			$cont = false;
 		}
 		//For each entry retrieved, the tags are counted and added to the array
-		foreach($results->objects as $entry) {			
+		foreach($results->objects as $entry) {	
 			$tags = explode(',', $entry->tags);
 			foreach ($tags as $tag) {
 				$tag = trim($tag);

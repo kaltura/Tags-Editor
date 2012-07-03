@@ -28,6 +28,8 @@ $client->setKs($ks);
 	<script type="text/javascript" src="lib/loadmask/jquery.loadmask.min.js"></script>
 	<!-- Page Scripts -->
 	<script type="text/javascript">
+		//Local copy of the tag list
+		var tagArray = [];
 		//are we loading the page or just calling ajax triggerd by user interaction?
 		var firstload = true;
 		//Keeps track of the page being viewed
@@ -56,10 +58,28 @@ $client->setKs($ks);
 				$('#addTagsInput').keyup(function(event) {
 					if(event.which == 13)
 						addTags();
+					else
+						findWords();
 				});
 				jQuery('.czntags').chosen({search_contains: true});
 			}
 		});
+
+		function findWords() {
+			console.log(tagArray);
+			var background = $('#tagDiv').css('background-color');
+			for(var i = 0; i < tagArray.length; ++i) {
+				if(tagArray[i].search($('#addTagsInput').val()) != -1 && $('#addTagsInput').val() != "") {
+					console.log($("#tagDiv span"));
+					//$("#tagDiv span").css("background-color","yellow");
+					$("#tagDiv span").eq(i).css("background-color","yellow");
+				}
+				else {
+					//$("#tagDiv span").css("background-color", background);
+					$("#tagDiv span").eq(i).css("background-color", background);
+				}
+			}
+		}
 		
 		//Responds to the page number index that is clicked
 		function pagerClicked (pageNumber, search)	{
@@ -92,12 +112,15 @@ $client->setKs($ks);
 			}).done(function(msg) {
 				$('#loadBar').hide();
 				$('#tagDiv').show();
-				$('#tagDiv').text(msg);
+				var tagList = msg.split(', ').sort();
+				var tags = tagList.join("</span>, <span>");
+				$('#tagDiv').html("<span>" + tags + "</span>");
 				if (firstload) {
 					showEntries();
 					reloadRemoveTags();
 					firstload = false;
 				}
+				tagArray = msg.replace(/ \([0-9]+\)/gi, "").split(', ').sort();
 			});
 		}
 

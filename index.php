@@ -66,17 +66,18 @@ $client->setKs($ks);
 		});
 
 		function findWords() {
-			console.log(tagArray);
 			var background = $('#tagDiv').css('background-color');
+			var newTags = $('#addTagsInput').val().split(/,\s*/gi);
+			console.log(newTags);
 			for(var i = 0; i < tagArray.length; ++i) {
-				if(tagArray[i].search($('#addTagsInput').val()) != -1 && $('#addTagsInput').val() != "") {
-					console.log($("#tagDiv span"));
-					//$("#tagDiv span").css("background-color","yellow");
-					$("#tagDiv span").eq(i).css("background-color","yellow");
-				}
-				else {
-					//$("#tagDiv span").css("background-color", background);
-					$("#tagDiv span").eq(i).css("background-color", background);
+				var tagFound = false;
+				for(var j = 0; j < newTags.length; ++j) {
+					if(tagArray[i].search(newTags[j]) != -1 && newTags[j].length > 1)
+						tagFound = true;
+					if(tagFound)
+						$("#tagDiv span").eq(i).css("background-color","yellow");
+					else
+						$("#tagDiv span").eq(i).css("background-color", background);
 				}
 			}
 		}

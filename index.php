@@ -170,8 +170,6 @@ $client->setKs($ks);
 							showEntries();
 				});
 			}
-			else
-				alert("damn");
 		}
 
 		//Show all the entries for a given page based on search terms or lack thereof

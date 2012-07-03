@@ -115,12 +115,12 @@ $client->setKs($ks);
 				var tagList = msg.split(', ').sort();
 				var tags = tagList.join("</span>, <span>");
 				$('#tagDiv').html("<span>" + tags + "</span>");
+				tagArray = msg.replace(/ \([0-9]+\)/gi, "").split(', ').sort();
 				if (firstload) {
 					showEntries();
 					reloadRemoveTags();
 					firstload = false;
 				}
-				tagArray = msg.replace(/ \([0-9]+\)/gi, "").split(', ').sort();
 			});
 		}
 

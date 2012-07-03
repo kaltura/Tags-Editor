@@ -1,1 +1,0 @@
-a:4:{s:9:"education";i:21;s:7:"finance";i:21;s:9:"economics";i:21;s:4:"yale";i:21;}

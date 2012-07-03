@@ -3,3 +3,4 @@ node_modules
 .project
 .settings/
 kalturaConfig.php
+tagCaching.txt

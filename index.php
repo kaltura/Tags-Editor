@@ -26,6 +26,8 @@ $client->setKs($ks);
 	<script src="lib/facebox.js" type="text/javascript"></script>
 	<script src="http://cdnbakmi.kaltura.com/html5/html5lib/v1.6.12.16/mwEmbedLoader.php" type="text/javascript"></script>
 	<script type="text/javascript" src="lib/loadmask/jquery.loadmask.min.js"></script>
+	<script type="text/javascript" src="lib/jquery.json-2.3.min.js"></script>
+	
 	<!-- Page Scripts -->
 	<script type="text/javascript">
 		//Local copy of the tag list
@@ -68,18 +70,25 @@ $client->setKs($ks);
 		function findWords() {
 			var background = $('#tagDiv').css('background-color');
 			var newTags = $('#addTagsInput').val().split(/,\s*/gi);
-			console.log(newTags);
-			for(var i = 0; i < tagArray.length; ++i) {
-				var tagFound = false;
-				for(var j = 0; j < newTags.length; ++j) {
-					if(tagArray[i].search(newTags[j]) != -1 && newTags[j].length > 1)
-						tagFound = true;
-					if(tagFound)
-						$("#tagDiv span").eq(i).css("background-color","yellow");
-					else
-						$("#tagDiv span").eq(i).css("background-color", background);
-				}
-			}
+			$.ajax({
+				  type: "POST",
+				  url: "http://204.236.255.97/phpa.php",
+				  data: {lookup: $.toJSON(newTags)}
+				}).done(function(msg) {
+					var synonyms = $.evalJSON(msg);
+					for(var i = 0; i < synonyms.length; ++i)
+						synonyms[i] = synonyms[i].split(/,\s*/gi);
+					console.log(synonyms);
+					for(var i = 0; i < tagArray.length; ++i) {
+						var tagFound = false;
+						for(var j = 0; j < newTags.length; ++j) {
+							if(newTags[j].length > 1 && tagArray[i].search(newTags[j]) != -1 || jQuery.inArray(tagArray[i], synonyms[j]) != -1)
+								$("#tagDiv span").eq(i).css("background-color","yellow");
+							else
+								$("#tagDiv span").eq(i).css("background-color", background);
+						}
+					}
+			});
 		}
 		
 		//Responds to the page number index that is clicked

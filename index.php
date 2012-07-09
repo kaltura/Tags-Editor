@@ -30,6 +30,8 @@ $client->setKs($ks);
 	
 	<!-- Page Scripts -->
 	<script type="text/javascript">
+		//Tells the synonym script which API to use
+		var useBigHugeLabs = true;	
 		//Local copy of the tag list
 		var tagArray = [];
 		//are we loading the page or just calling ajax triggerd by user interaction?
@@ -74,15 +76,25 @@ $client->setKs($ks);
 			var background = $('#tagDiv').css('background-color');
 			var newTags = $('#addTagsInput').val().split(/,\s*/gi);
 			//Calls the script that handles synonym retrieval
-			$.ajax({
-				  type: "POST",
-				  url: <?php echo PHP_AIKSAURUS; ?>,
-				  data: {lookup: $.toJSON(newTags)}
+			if(useBigHugeLabs) {
+				var synonyms = [];
+				$.ajax({
+					type: "POST",
+					url: "getSynonyms.php",
+					data: {lookup: $.toJSON(newTags)}
 				}).done(function(msg) {
-					var synonyms = $.evalJSON(msg);
-					//Creates a parallel array of synonyms for the tags being added
-					for(var i = 0; i < synonyms.length; ++i)
-						synonyms[i] = synonyms[i].split(/,\s*/gi);
+					var synonymsList = $.evalJSON(msg);
+					console.log(synonymsList);
+					for(var i = 0; i < synonymsList.length; ++i) {
+						words = "";
+						for(var field in synonymsList[i]) {
+							for(var syn in synonymsList[i][field]) {
+								if(syn = 'syn')
+									words += synonymsList[i][field][syn];
+							}
+						}
+						synonyms[i] = words.split(/,\s*/gi);
+					}
 					//If a tag already on the server matches the string of a new tag,
 					//or is synonymous with a new tag, it is highlighted yellow
 					for(var i = 0; i < tagArray.length; ++i) {
@@ -94,7 +106,31 @@ $client->setKs($ks);
 								$("#tagDiv span").eq(i).css("background-color", background);
 						}
 					}
-			});
+				});
+			}
+			else {
+				$.ajax({
+					  type: "POST",
+					  url: <?php echo PHP_AIKSAURUS; ?>,
+					  data: {lookup: $.toJSON(newTags)}
+					}).done(function(msg) {
+						var synonyms = $.evalJSON(msg);
+						//Creates a parallel array of synonyms for the tags being added
+						for(var i = 0; i < synonyms.length; ++i)
+							synonyms[i] = synonyms[i].split(/,\s*/gi);
+						//If a tag already on the server matches the string of a new tag,
+						//or is synonymous with a new tag, it is highlighted yellow
+						for(var i = 0; i < tagArray.length; ++i) {
+							var tagFound = false;
+							for(var j = 0; j < newTags.length; ++j) {
+								if(newTags[j].length > 1 && tagArray[i].search(newTags[j]) != -1 || jQuery.inArray(tagArray[i], synonyms[j]) != -1)
+									$("#tagDiv span").eq(i).css("background-color","yellow");
+								else
+									$("#tagDiv span").eq(i).css("background-color", background);
+							}
+						}
+				});
+			}
 		}
 		
 		//Responds to the page number index that is clicked

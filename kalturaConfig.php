@@ -7,4 +7,4 @@ define("PARTNER_ID", 000); //Replace 000 with your partner id
 define("ADMIN_SECRET",'xxxx'); //Replace xxxx with your admin secret
 define("USER_ID",'tagsManager');
 define("PLAYER_UICONF_ID", 4289612);
-define("PHP_AIKSAURUS", '"http://204.236.255.97/phpa.php"');
+define("PHP_AIKSAURUS", '"http://204.236.255.97/phpa.php"'); //This is the default Kaltura server

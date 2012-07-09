@@ -67,18 +67,24 @@ $client->setKs($ks);
 			}
 		});
 
+		//Every time a keystroke is recorded, this function scans the tags list
+		//and creates a list of synonyms to highlight any tags "similar" or synonymous
+		//to the new tags being entered
 		function findWords() {
 			var background = $('#tagDiv').css('background-color');
 			var newTags = $('#addTagsInput').val().split(/,\s*/gi);
+			//Calls the script that handles synonym retrieval
 			$.ajax({
 				  type: "POST",
-				  url: "http://204.236.255.97/phpa.php",
+				  url: <?php echo PHP_AIKSAURUS; ?>,
 				  data: {lookup: $.toJSON(newTags)}
 				}).done(function(msg) {
 					var synonyms = $.evalJSON(msg);
+					//Creates a parallel array of synonyms for the tags being added
 					for(var i = 0; i < synonyms.length; ++i)
 						synonyms[i] = synonyms[i].split(/,\s*/gi);
-					console.log(synonyms);
+					//If a tag already on the server matches the string of a new tag,
+					//or is synonymous with a new tag, it is highlighted yellow
 					for(var i = 0; i < tagArray.length; ++i) {
 						var tagFound = false;
 						for(var j = 0; j < newTags.length; ++j) {
@@ -122,6 +128,8 @@ $client->setKs($ks);
 			}).done(function(msg) {
 				$('#loadBar').hide();
 				$('#tagDiv').show();
+				//Seperates the tags by span so that the appropriate
+				//tags can be highlighted if matched
 				var tagList = msg.split(', ').sort();
 				var tags = tagList.join("</span>, <span>");
 				$('#tagDiv').html("<span>" + tags + "</span>");

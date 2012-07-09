@@ -1,6 +1,6 @@
 <?php
-// To get started with Kaltura, you need an acccount. 
-// Get a free trial at: http://corp.kaltura.com 
+// To get started with Kaltura, you need an acccount.
+// Get a free trial at: http://corp.kaltura.com
 // In your Kaltura account, get the partner Id and API Admin Secret from:
 // http://www.kaltura.com/index.php/kmc/kmc4#account|integration
 define("PARTNER_ID", 000); //Replace 000 with your partner id
@@ -10,4 +10,4 @@ define("PLAYER_UICONF_ID", 4289612);
 define("TAG_CACHE", 'tagCaching.txt');
 define("PHP_AIKSAURUS", '"http://204.236.255.97/phpa.php"'); //This is the default script (PHP AIKSAURUS) for finding synonyms hosted on the Kaltura server.
 define("BIG_HUGE_THESAURUS_KEY", 'xxxx'); //Replace xxxx with your Big Huge Thesaurus API Key. You may obtain an API key at http://words.bighugelabs.com/api.php
-define("USE_BIG_HUGE_THESAURUS", false); // Defaults to use PHP Aiksaurus, set this to true and set your Big Huge Thesaurus API Key to use that library instead.
+define("USE_BIG_HUGE_THESAURUS", 'true'); // Defaults to use PHP Aiksaurus, set this to true and set your Big Huge Thesaurus API Key to use that library instead.

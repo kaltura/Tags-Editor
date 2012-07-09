@@ -31,7 +31,7 @@ $client->setKs($ks);
 	<!-- Page Scripts -->
 	<script type="text/javascript">
 		//Tells the synonym script which API to use
-		var useBigHugeLabs = true;	
+		var useBigHugeLabs = false;	
 		//Local copy of the tag list
 		var tagArray = [];
 		//are we loading the page or just calling ajax triggerd by user interaction?
@@ -84,7 +84,6 @@ $client->setKs($ks);
 					data: {lookup: $.toJSON(newTags)}
 				}).done(function(msg) {
 					var synonymsList = $.evalJSON(msg);
-					console.log(synonymsList);
 					for(var i = 0; i < synonymsList.length; ++i) {
 						words = "";
 						for(var field in synonymsList[i]) {

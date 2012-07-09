@@ -7,6 +7,7 @@ Files
 
 * addNewTags.php - Adds new tags to the cache for efficient applying of tags to entries
 * entriesLayout.css - The styling for the front page
+* getSynonyms.php - Calls the Big Huge Thesaurus API to look up synonyms
 * getTagList.php - Generates the tag cache for your entries and displays them
 * index.php - The front page for all the entries and calling the scripts
 * kalturaConfig.php - Stores all the constants such as the cache file and your authorization information
@@ -29,4 +30,5 @@ Folders
 	
 Note
 ----
-For faster loading, upon the first load of the page a file named tagCaching.txt is created to store the array of tags. This cache is updated when the tool is being used but any new tags that are entered elsewhere (eg., KMC or through the API) will not show up until the cache file is deleted. 
+* For faster loading, upon the first load of the page a file named tagCaching.txt is created to store the array of tags. This cache is updated when the tool is being used but any new tags that are entered elsewhere (eg., KMC or through the API) will not show up until the cache file is deleted.
+* By default, the script used to find synonyms is set to use PHP Aiksaurus. To use the Big Huge Thesaurus API instead, set useBigHugeLabs to true in index.php and enter your API key in kalturaConfig.php 

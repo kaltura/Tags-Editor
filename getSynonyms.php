@@ -1,4 +1,5 @@
 <?php
+//Calls the Big Huge Thesaurus API to look up synonyms
 require_once("kalturaConfig.php");
 $lookup = json_decode($_REQUEST['lookup']);
 $synonyms = array();

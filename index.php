@@ -77,6 +77,7 @@ $client->setKs($ks);
 			var newTags = $('#addTagsInput').val().split(/,\s*/gi);
 			//Calls the script that handles synonym retrieval
 			if(useBigHugeLabs) {
+				//If the user has a Big Huge Thesaurus API Key, they may use it to retrieve synonyms
 				var synonyms = [];
 				$.ajax({
 					type: "POST",
@@ -107,6 +108,7 @@ $client->setKs($ks);
 					}
 				});
 			}
+			//The user may use the PHP Aiksaurus library instead as well
 			else {
 				$.ajax({
 					  type: "POST",

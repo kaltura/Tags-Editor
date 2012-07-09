@@ -7,5 +7,7 @@ define("PARTNER_ID", 000); //Replace 000 with your partner id
 define("ADMIN_SECRET",'xxxx'); //Replace xxxx with your admin secret
 define("USER_ID",'tagsManager');
 define("PLAYER_UICONF_ID", 4289612);
-define("PHP_AIKSAURUS", '"http://204.236.255.97/phpa.php"'); //This is the default Kaltura server
-define("BIG_HUGE_THESAURUS_KEY", 'xxxx'); //Replace xxxx with your Big Huge Thesaurus API Key
+define("TAG_CACHE", 'tagCaching.txt');
+define("PHP_AIKSAURUS", '"http://204.236.255.97/phpa.php"'); //This is the default script (PHP AIKSAURUS) for finding synonyms hosted on the Kaltura server.
+define("BIG_HUGE_THESAURUS_KEY", 'xxxx'); //Replace xxxx with your Big Huge Thesaurus API Key. You may obtain an API key at http://words.bighugelabs.com/api.php
+define("USE_BIG_HUGE_THESAURUS", false); // Defaults to use PHP Aiksaurus, set this to true and set your Big Huge Thesaurus API Key to use that library instead.

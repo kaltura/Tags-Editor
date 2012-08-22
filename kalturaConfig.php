@@ -11,4 +11,4 @@ define("TAG_CACHE", 'tagCaching.txt');
 define("PHP_AIKSAURUS", "phpAiksaurus.php"); //Uses PHP Aiksaurus which must be installed on your server for this to work
 define("BIG_HUGE_THESAURUS", "bigHugeThesaurus.php"); //Uses Big Huge Thesaurus
 define("BIG_HUGE_THESAURUS_KEY", 'xxxx'); //Replace xxxx with your Big Huge Thesaurus API Key. You may obtain an API key at http://words.bighugelabs.com/api.php
-define("THESAURUS", BIG_HUGE_THESAURUS);
+define("THESAURUS", BIG_HUGE_THESAURUS); //Change this definition to use any synonym generating script you'd like

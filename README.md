@@ -33,7 +33,6 @@ Folders
 Note
 ----
 * For faster loading, upon the first load of the page a file named tagCaching.txt is created to store the array of tags. This cache is updated when the tool is being used but any new tags that are entered elsewhere (eg., KMC or through the API) will not show up until the cache file is deleted.
-* By default, the script used to find synonyms is set to use PHP Aiksaurus. To use the Big Huge Thesaurus API instead, set USE_BIG_HUGE_THESAURUS to false in kalturaConfig.php and enter your API key as well.
 * By default, getSynonyms.php retrieves getSynonyms() from bigHugeThesaurus using a require_once() call. You may change which script it grabs
 the function definition from by changing the "THESAURUS" definiton in kalturaConfig.php. getSynonyms.php contains an explanation of what the input
 parameters are and what response must be generated to work properly with the front-end javascript.

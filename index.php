@@ -30,8 +30,6 @@ $client->setKs($ks);
 	
 	<!-- Page Scripts -->
 	<script type="text/javascript">
-		//Tells the synonym script which API to use
-		var useBigHugeLabs = <?php echo USE_BIG_HUGE_THESAURUS; ?>;
 		//Local copy of the tag list
 		var tagArray = [];
 		//are we loading the page or just calling ajax triggerd by user interaction?
@@ -42,7 +40,12 @@ $client->setKs($ks);
 			$.facebox.settings.closeImage = './lib/closelabel.png';
 			$.facebox.settings.loadingImage = './lib/loading.gif';
 
-			if(<?php echo '"'.ADMIN_SECRET.'"'; ?> == 'xxxx' || <?php echo '"'.PARTNER_ID.'"'; ?> == 000) {
+			if(1 == <?php 
+					if(ADMIN_SECRET == 'xxx' || PARTNER_ID == 000) 
+						echo 1;
+					else
+						echo 0;
+				?>) {
 				$('#addTagsButton').attr('disabled', 'disabled');
 				$('#removeTagsButton').attr('disabled', 'disabled');
 				$('#searchButton').attr('disabled', 'disabled');
@@ -76,62 +79,24 @@ $client->setKs($ks);
 			var background = $('#tagDiv').css('background-color');
 			var newTags = $('#addTagsInput').val().split(/,\s*/gi);
 			//Calls the script that handles synonym retrieval
-			if(useBigHugeLabs) {
-				//If the user has a Big Huge Thesaurus API Key, they may use it to retrieve synonyms
-				var synonyms = [];
-				$.ajax({
-					type: "POST",
-					url: "getSynonyms.php",
-					data: {lookup: $.toJSON(newTags)}
-				}).done(function(msg) {
-					var synonymsList = $.evalJSON(msg);
-					for(var i = 0; i < synonymsList.length; ++i) {
-						words = "";
-						for(var field in synonymsList[i]) {
-							for(var syn in synonymsList[i][field]) {
-								if(syn = 'syn')
-									words += synonymsList[i][field][syn];
-							}
-						}
-						synonyms[i] = words.split(/,\s*/gi);
+			$.ajax({
+				type: "POST",
+				url: "getSynonyms.php",
+				data: {lookup: newTags}
+			}).done(function(msg) {
+				var synonyms = $.evalJSON(msg);
+				//If a tag already on the server matches the string of a new tag,
+				//or is synonymous with a new tag, it is highlighted yellow
+				for(var i = 0; i < tagArray.length; ++i) {
+					var tagFound = false;
+					for(var j = 0; j < newTags.length; ++j) {
+						if(newTags[j].length > 1 && tagArray[i].search(newTags[j]) != -1 || jQuery.inArray(tagArray[i], synonyms[j]) != -1)
+							$("#tagDiv span").eq(i).css("background-color","yellow");
+						else
+							$("#tagDiv span").eq(i).css("background-color", background);
 					}
-					//If a tag already on the server matches the string of a new tag,
-					//or is synonymous with a new tag, it is highlighted yellow
-					for(var i = 0; i < tagArray.length; ++i) {
-						var tagFound = false;
-						for(var j = 0; j < newTags.length; ++j) {
-							if(newTags[j].length > 1 && tagArray[i].search(newTags[j]) != -1 || jQuery.inArray(tagArray[i], synonyms[j]) != -1)
-								$("#tagDiv span").eq(i).css("background-color","yellow");
-							else
-								$("#tagDiv span").eq(i).css("background-color", background);
-						}
-					}
-				});
-			}
-			//The user may use the PHP Aiksaurus library instead as well
-			else {
-				$.ajax({
-					  type: "POST",
-					  url: <?php echo PHP_AIKSAURUS; ?>,
-					  data: {lookup: $.toJSON(newTags)}
-					}).done(function(msg) {
-						var synonyms = $.evalJSON(msg);
-						//Creates a parallel array of synonyms for the tags being added
-						for(var i = 0; i < synonyms.length; ++i)
-							synonyms[i] = synonyms[i].split(/,\s*/gi);
-						//If a tag already on the server matches the string of a new tag,
-						//or is synonymous with a new tag, it is highlighted yellow
-						for(var i = 0; i < tagArray.length; ++i) {
-							var tagFound = false;
-							for(var j = 0; j < newTags.length; ++j) {
-								if(newTags[j].length > 1 && tagArray[i].search(newTags[j]) != -1 || jQuery.inArray(tagArray[i], synonyms[j]) != -1)
-									$("#tagDiv span").eq(i).css("background-color","yellow");
-								else
-									$("#tagDiv span").eq(i).css("background-color", background);
-							}
-						}
-				});
-			}
+				}
+			});
 		}
 		
 		//Responds to the page number index that is clicked

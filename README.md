@@ -31,5 +31,5 @@ Folders
 Note
 ----
 * For faster loading, upon the first load of the page a file named tagCaching.txt is created to store the array of tags. This cache is updated when the tool is being used but any new tags that are entered elsewhere (eg., KMC or through the API) will not show up until the cache file is deleted.
-* By default, the script used to find synonyms is set to use PHP Aiksaurus. To use the Big Huge Thesaurus API instead, set useBigHugeLabs to true in index.php and enter your API key in kalturaConfig.php
+* By default, the script used to find synonyms is set to use PHP Aiksaurus. To use the Big Huge Thesaurus API instead, set USE_BIG_HUGE_THESAURUS to false in kalturaConfig.php and enter your API key as well.
 * If you would like to use your own synonym generating engine, modify findWords() in index.php and getSynonyms.php to properly format the data retrieval and implementation. The "synonyms" array should be 2-dimensional and the indices should be parallel to the words in the newTags array. If your engine returns that no synonyms are found, there should be an empty string at that index.
